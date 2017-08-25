@@ -1,0 +1,13 @@
+{
+  "name": "tacit",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon index.js -q -x 'clear && node'"
+  },
+  "dependencies": {
+    "moment": "^2.18.1",
+    "nodemon": "^1.11.0"
+  }
+}
