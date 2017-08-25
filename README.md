@@ -66,15 +66,17 @@ Partial application of a variadic function into a fixed number of values
 Functors beyond arrays
 ======================
 
-A Functor is a type that implements map and obeys some laws+
+A Functor is a type that implements map and obeys some laws
 
 Links
 =====
 
-- [Ramda](http://ramdajs.com)
+- [Ramda](http://ramdajs.com): like lodash, but all functions are curried and pointfree.
 
-- [Folktale](https://github.com/origamitower/folktale)
+- [Folktale](http://folktale.origamitower.com/): A standard library for functional programming in JavaScript
 
-- [Professor Frisby's Mostly Adequate Guide to Functional Programming](https://drboolean.gitbooks.io/mostly-adequate-guide/)
+- [Professor Frisby's Mostly Adequate Guide to Functional Programming](https://drboolean.gitbooks.io/mostly-adequate-guide/): A full guide for FP in JS.
 
-- [The Algebra of Algebraic Data Types](http://chris-taylor.github.io/blog/2013/02/10/the-algebra-of-algebraic-data-types/)
+- [The Elm Architecture](https://guide.elm-lang.org/architecture/) Shh, just read it. Trust me.
+
+- [Learn You a Haskell for Great Good](http://learnyouahaskell.com/) A beginner's guide.
