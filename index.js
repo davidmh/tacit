@@ -64,6 +64,8 @@ const maybe = x => ({
   value: x
 });
 
+// Example
+
 maybe('Malkovich Malkovich')
   .map(match(/a/ig));
 //=> maybe(['a', 'a'])
@@ -103,6 +105,8 @@ const right = x => ({
   },
   value: x
 });
+
+// Example
 
 //  getAge :: Date -> User -> Rither(String, Number)
 const getAge = curry((now, user) => {

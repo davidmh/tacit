@@ -23,7 +23,6 @@ There are only two types of people in the world:
 
 1. Those who can extrapolate from incomplete data.
 
-
 Pipe
 ====
 
@@ -32,7 +31,6 @@ Pipe
  It's a backwards-compatible way of streamlining chained function calls in a
  readable, functional manner, and provides a practical alternative to extending
  built-in prototypes.
-
 
 Rules
 =====
@@ -65,16 +63,18 @@ Currying
 
 Partial application of a variadic function into a fixed number of values
 
-
 Functors beyond arrays
 ======================
 
 A Functor is a type that implements map and obeys some laws+
 
-
 Links
+=====
 
+- [Ramda](http://ramdajs.com)
 
-[Professor Frisby's Mostly Adequate Guide to Functional Programming](https://drboolean.gitbooks.io/mostly-adequate-guide/)
+- [Folktale](https://github.com/origamitower/folktale)
 
-[The Algebra of Algebraic Data Types](http://chris-taylor.github.io/blog/2013/02/10/the-algebra-of-algebraic-data-types/)
+- [Professor Frisby's Mostly Adequate Guide to Functional Programming](https://drboolean.gitbooks.io/mostly-adequate-guide/)
+
+- [The Algebra of Algebraic Data Types](http://chris-taylor.github.io/blog/2013/02/10/the-algebra-of-algebraic-data-types/)
