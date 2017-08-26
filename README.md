@@ -18,8 +18,8 @@ And use it
 echo "Elaine,Jerry,George,Eric" | getNamesStartingWithE
 ```
 
-There are only two types of people in the world:
-================================================
+There are only two types of people in the world
+===============================================
 
 1. Those who can extrapolate from incomplete data.
 

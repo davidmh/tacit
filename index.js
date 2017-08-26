@@ -3,13 +3,11 @@ const moment = require('moment');
 
 // Helpers
 
-const curry = (fn, ...args) => {
-  if (args.length >= fn.length) {
-    return fn(...args);
-  }
-  return (...partialArgs) =>
-    curry(...[fn, ...args, ...partialArgs]);
-};
+const curry = (fn, ...args) =>
+  (args.length >= fn.length)
+    ? fn(...args)
+    : (...partialArgs) =>
+      curry(...[fn, ...args, ...partialArgs]);
 
 const compose = (...fns) => input =>
   fns.reduceRight((data, fn) => fn(data), input);
@@ -36,6 +34,10 @@ const join = delimiter => list =>
 const filter = condition => list =>
   list.filter(condition);
 
+const map = curry(function map(fn, list) {
+  return list.map(fn)
+});
+
 // Misc
 const prop = name => obj => obj[name];
 const add = a => b => a + b;
@@ -48,85 +50,98 @@ const getNamesStartingWithE = pipe
 
 const data = 'Edward,Chris,Gabriel,Erika,David';
 
-// log('names starting with E', getNamesStartingWithE(data));
+log('names starting with E', getNamesStartingWithE(data));
+
+const makeBox = (type, x, methods) =>
+  Object.create(Object.assign({
+    inspect() {
+      return `${type}(${JSON.stringify(x, null, '  ')})`;
+    },
+    matchWith(options) {
+      return type in options
+        ? options[type](x)
+        : () => {};
+    },
+    get value () {
+      return x;
+    }
+  }, methods));
 
 // Maybe
 
-const maybe = x => ({
+const Maybe = x => makeBox('Maybe', x, {
   map(fn) {
     return (x === undefined || x === null)
-      ? maybe(null)
-      : maybe(fn(x));
-  },
-  inspect() {
-    return `maybe(${JSON.stringify(x)})`;
-  },
-  value: x
+      ? Maybe(null)
+      : Maybe(fn(x));
+  }
 });
 
 // Example
 
-maybe('Malkovich Malkovich')
+Maybe('Malkovich Malkovich')
   .map(match(/a/ig));
-//=> maybe(['a', 'a'])
+//=> Maybe(['a', 'a'])
 
-maybe(null)
+Maybe(null)
   .map(match(/a/ig));
-//=> maybe(null)
+//=> Maybe(null)
 
-maybe({ name: 'Boris', })
+Maybe({ name: 'Boris', })
   .map(prop('age'))
   .map(add(10));
-//=> maybe(null)
+//=> Maybe(null)
 
-maybe({ name: 'Dinah', age: 14 })
+Maybe({ name: 'Dinah', age: 14 })
   .map(prop('age'))
   .map(add(10));
-//=> maybe(24)
+//=> Maybe(24)
 
-// Either = [left|right]
+// Either = [Left|Right]
 
-const left = x => ({
+const Left = x => makeBox('Left', x, {
   map() {
     return this;
-  },
-  inspect() {
-    return `left(${JSON.stringify(x)})`;
-  },
-  value: x
+  }
 });
 
-const right = x => ({
+const Right = x => makeBox('Right', x, {
   map(fn) {
-    return right(fn(x));
-  },
-  inspect() {
-    return `right(${JSON.stringify(x)})`;
-  },
-  value: x
+    return Right(fn(x));
+  }
 });
 
 // Example
 
 //  getAge :: Date -> User -> Rither(String, Number)
-const getAge = curry((now, user) => {
+const getAge = curry(function getAge (now, user) {
   const birthdate = moment(user.birthdate, 'YYYY-MM-DD');
   if (!birthdate.isValid()) {
-    return left('Birth date could not be parsed');
+    return Left('Birth date could not be parsed');
   }
-  return right(now.diff(birthdate, 'years'));
+  return Right(now.diff(birthdate, 'years'));
 });
 
-const validData = {
-  birthdate: '2005-12-12',
-};
-const valid = getAge(moment(), validData);
-// console.log(valid);
+const users = [
+  {
+    birthdate: '1984-12-29',
+  },
+  {
+    birthdate: '2005-12-12',
+  },
+  {
+    birthdate: 'A long time ago in a galaxy far far away',
+  }
+];
 
-const invalidData = {
-  birthdate: 'A long time ago in a galaxy far far away',
-};
-const invalid = getAge(moment(), invalidData);
-//console.log(invalid);
+const ageFromNow = getAge(moment());
 
+const allAgesFromNow = map(ageFromNow);
 
+// log(
+//   allAgesFromNow(users)
+//     .map(age => age.matchWith({
+//       Left: x => `<span className="error">${x}</span>`,
+//       Right: x => `<span className="age">${x}</span>`
+//     }))
+// );
