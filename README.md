@@ -32,20 +32,20 @@ Pipe
  readable, functional manner, and provides a practical alternative to extending
  built-in prototypes.
 
-Rules
+ Rules
 =====
 
 Your functions need to be:
 
 1. Predictable.
 
-```JavaScript
+```javascript
 const double = x => x * x;
 const toUpper = x => x.toUpperCase();
 ```
 
 2. Unary
-```JavaScript
+```javascript
 const map = fn => list => list.map(fn);
 const filter = fn => list => list.filter(fn);
 
@@ -71,12 +71,17 @@ A Functor is a type that implements map and obeys some laws
 Links
 =====
 
-- [Ramda](http://ramdajs.com): like lodash, but all functions are curried and pointfree.
+- [Ramda](http://ramdajs.com)
+  Like lodash, but all functions are curried and pointfree.
 
-- [Folktale](http://folktale.origamitower.com/): A standard library for functional programming in JavaScript
+- [Folktale](http://folktale.origamitower.com/)
+  A standard library for functional programming in JavaScript
 
-- [Professor Frisby's Mostly Adequate Guide to Functional Programming](https://drboolean.gitbooks.io/mostly-adequate-guide/): A full guide for FP in JS.
+- [Professor Frisby's Mostly Adequate Guide to Functional Programming](https://drboolean.gitbooks.io/mostly-adequate-guide/)
+  A full guide for FP in JS.
 
-- [The Elm Architecture](https://guide.elm-lang.org/architecture/) Shh, just read it. Trust me.
+- [The Elm Architecture](https://guide.elm-lang.org/architecture/)
+  Shh, just read it. Trust me.
 
-- [Learn You a Haskell for Great Good](http://learnyouahaskell.com/) A beginner's guide.
+- [Learn You a Haskell for Great Good](http://learnyouahaskell.com/)
+  A beginner's guide.
