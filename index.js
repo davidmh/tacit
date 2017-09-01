@@ -52,29 +52,18 @@ const data = 'Edward,Chris,Gabriel,Erika,David';
 
 log('names starting with E', getNamesStartingWithE(data));
 
-const makeBox = (type, x, methods) =>
-  Object.create(Object.assign({
-    inspect() {
-      return `${type}(${JSON.stringify(x, null, '  ')})`;
-    },
-    matchWith(options) {
-      return type in options
-        ? options[type](x)
-        : () => {};
-    },
-    get value () {
-      return x;
-    }
-  }, methods));
-
 // Maybe
 
-const Maybe = x => makeBox('Maybe', x, {
+const Maybe = x => Object.create({
   map(fn) {
     return (x === undefined || x === null)
       ? Maybe(null)
       : Maybe(fn(x));
-  }
+  },
+  inspect() {
+    return `Maybe(${JSON.stringify(x)})`;
+  },
+  value: x
 });
 
 // Example
@@ -97,18 +86,32 @@ Maybe({ name: 'Dinah', age: 14 })
   .map(add(10));
 //=> Maybe(24)
 
-// Either = [Left|Right]
+// Either = Left | Right
 
-const Left = x => makeBox('Left', x, {
+const Left = x => Object.create({
   map() {
     return this;
-  }
+  },
+  matchWith(table) {
+    return table.Left && table.Left(x);
+  },
+  inspect() {
+    return `Left(${JSON.stringify(x)})`
+  },
+  value: x
 });
 
-const Right = x => makeBox('Right', x, {
+const Right = x => Object.create({
   map(fn) {
     return Right(fn(x));
-  }
+  },
+  matchWith(table) {
+    return table.Right && table.Right(x);
+  },
+  inspect() {
+    return `Right(${JSON.stringify(x)})`;
+  },
+  value: x
 });
 
 // Example
@@ -123,6 +126,9 @@ const getAge = curry(function getAge (now, user) {
 });
 
 const users = [
+  {
+    birthdate: '1969-12-31',
+  },
   {
     birthdate: '1984-12-29',
   },
