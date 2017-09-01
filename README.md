@@ -36,7 +36,7 @@ const y = g(x);
 const z = f(y);
 ```
 
-Or if those two functions are useful togheter frequently
+Or if those two functions are useful together frequently
 
 ```javascript
 const foo = y => f(g(y));
@@ -104,7 +104,7 @@ const doubleAll = map(double);
 Caveats
 =======
 
-Not all functions should are unary.
+Not all functions are unary.
 
 Currying
 ========
