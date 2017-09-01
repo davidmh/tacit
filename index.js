@@ -3,17 +3,17 @@ const moment = require('moment');
 
 // Helpers
 
-const curry = (fn, ...args) =>
-  (args.length >= fn.length)
-    ? fn(...args)
-    : (...partialArgs) =>
-      curry(...[fn, ...args, ...partialArgs]);
-
 const compose = (...fns) => input =>
   fns.reduceRight((data, fn) => fn(data), input);
 
 const pipe = (...fns) => input =>
   fns.reduce((data, fn) => fn(data), input);
+
+const curry = (fn, ...args) =>
+  (args.length >= fn.length)
+    ? fn(...args)
+    : (...partialArgs) =>
+      curry(...[fn, ...args, ...partialArgs]);
 
 // String
 
@@ -113,7 +113,7 @@ const Right = x => makeBox('Right', x, {
 
 // Example
 
-//  getAge :: Date -> User -> Rither(String, Number)
+//  getAge :: Date -> User -> Either(String | Number)
 const getAge = curry(function getAge (now, user) {
   const birthdate = moment(user.birthdate, 'YYYY-MM-DD');
   if (!birthdate.isValid()) {

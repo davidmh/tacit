@@ -18,13 +18,61 @@ And use it
 echo "Elaine,Jerry,George,Eric" | getNamesStartingWithE
 ```
 
-There are only two types of people in the world
-===============================================
+Compose
+=======
 
-1. Those who can extrapolate from incomplete data.
+Suppose we have two functions `f` and `g`
+
+Composing them means we first compute `y = g(x)`, and then
+use `y` to compute `z = f(y)`
+
+
+In JavaScript
+=============
+
+We can do this
+```javascript
+const y = g(x);
+const z = f(y);
+```
+
+Or if those two functions are useful togheter frequently
+
+```javascript
+const foo = y => f(g(y));
+const z = foo(x);
+const z2 = foo(x2);
+// ... etc
+```
+
+Or
+
+```javascript
+const foo = compose(f, g);
+// foo is the `f` of `g` of something
+```
+
+In Haskell
+
+```haskell
+foo = f . g
+```
 
 Pipe
 ====
+
+`compose` consumes the functions right-to-left, `pipe` does it left-to-right
+
+Which reads a bit closer to what we are used to in both JavaScript and Bash
+
+```javascript
+const foo = pipe(g, f);
+// foo applies `g`, then `f` to something
+```
+
+The Pipeline Operator
+=====================
+
 
 [ESNext Proposal: The Pipeline Operator](https://github.com/tc39/proposal-pipeline-operator)
 
@@ -32,7 +80,7 @@ Pipe
  readable, functional manner, and provides a practical alternative to extending
  built-in prototypes.
 
- Rules
+Rules
 =====
 
 Your functions need to be:
@@ -56,12 +104,28 @@ const doubleAll = map(double);
 Caveats
 =======
 
-Not all functions should be unary.
+Not all functions should are unary.
 
 Currying
 ========
 
 Partial application of a variadic function into a fixed number of values
+
+```javascript
+const replace = curry(
+  (exp, replacement, str) => str.replace(exp, replacement)
+);
+
+const bananafy = replace(
+  /\w/g,
+  (match, i) => ((i + 1) % 3 === 0)
+    ? 'banana'
+    : match;
+);
+
+
+bananafy('Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.')
+```
 
 Functors beyond arrays
 ======================
