@@ -116,15 +116,20 @@ const replace = curry(
   (exp, replacement, str) => str.replace(exp, replacement)
 );
 
-const bananafy = replace(
-  /\w/g,
-  (match, i) => ((i + 1) % 3 === 0)
+const replaceWords = replace(/\w+/g);
+
+const bananafy = replaceWords(
+  (word, i) => word.length === 6
     ? 'banana'
-    : match;
+    : word
 );
 
+const bananasburg = bananafy(`
+  Four score and seven years ago our fathers brought forth on this continent, a
+  new nation, conceived in Liberty, and dedicated to the proposition that all
+  men are created equal.
+`);
 
-bananafy('Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.')
 ```
 
 Functors beyond arrays
