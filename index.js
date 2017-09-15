@@ -76,15 +76,13 @@ const bananasburg = bananafy(`
 
 // Maybe
 
-const Maybe = x => Object.create({
-  map(fn) {
-    return (x === undefined || x === null)
-      ? Maybe(null)
-      : Maybe(fn(x));
-  },
-  inspect() {
-    return `Maybe(${JSON.stringify(x)})`;
-  },
+const isNullable = x => x === undefined || x === null;
+
+const Maybe = x => ({
+  map: fn => isNullable(x)
+    ? Maybe(null)
+    : Maybe(fn(x)),
+  inspect: () => `Maybe(${JSON.stringify(x)})`,
   value: x
 });
 
@@ -110,30 +108,16 @@ Maybe({ name: 'Dinah', age: 14 })
 
 // Either = Left | Right
 
-const Left = x => Object.create({
-  map() {
-    return this;
-  },
-  matchWith(table) {
-    return table.Left && table.Left(x);
-  },
-  inspect() {
-    return `Left(${JSON.stringify(x)})`
-  },
-  value: x
+const Left = x => ({
+  map: () => Left(x),
+  fold: (left, right) => left(x),
+  inspect: () => `Left(${JSON.stringify(x)})`
 });
 
-const Right = x => Object.create({
-  map(fn) {
-    return Right(fn(x));
-  },
-  matchWith(table) {
-    return table.Right && table.Right(x);
-  },
-  inspect() {
-    return `Right(${JSON.stringify(x)})`;
-  },
-  value: x
+const Right = x => ({
+  map: fn  => Right(fn(x)),
+  fold: (left, right) => right(x),
+  inspect: () => `Right(${JSON.stringify(x)})`,
 });
 
 // Example
@@ -168,8 +152,8 @@ const allAgesFromNow = map(ageFromNow);
 
 // log(
 //   allAgesFromNow(users)
-//     .map(age => age.matchWith({
-//       Left: x => `<span className="error">${x}</span>`,
-//       Right: x => `<span className="age">${x}</span>`
-//     }))
+//   .map(age => age.fold(
+//     error => `<span className="error">${error}</span>`,
+//     value => `<span className="age">${value}</span>`
+//   ))
 // );

@@ -132,10 +132,10 @@ const bananasburg = bananafy(`
 
 ```
 
-Functors beyond arrays
+Algebraic Data Types
 ======================
 
-A Functor is a type that implements map and obeys some laws
+Containers or wrappers with shared methods following a specific set of rules
 
 Links
 =====
@@ -145,6 +145,9 @@ Links
 
 - [Folktale](http://folktale.origamitower.com/)
   A standard library for functional programming in JavaScript
+
+- [Crocks](https://github.com/evilsoft/crocks)
+  A collection of well known Monadic Containers for your utter enjoyment.
 
 - [Professor Frisby's Mostly Adequate Guide to Functional Programming](https://drboolean.gitbooks.io/mostly-adequate-guide/)
   A full guide for FP in JS.
